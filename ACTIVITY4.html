@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JavaScript Quiz Game</title>
+</head>
+<body>
+
+    <h1>JavaScript Quiz Game</h1>
+
+    <p id="question"></p>
+    <p id="choices"></p>
+    <p id="result"></p>
+    <p id="score">Score: 0</p>
+
+    <button id="nextButton" onclick="nextQuestion()">Next Question</button>
+    <button id="restartButton" onclick="restartQuiz()" hidden>Restart Quiz</button>
+
+    <script>
+        const quiz = [
+            {
+                question: "What is the correct way to declare a variable in JavaScript?",
+                choices: ["var x", "variable x", "declare x", "int x"],
+                answer: 0
+            },
+            {
+                question: "Which symbol is used for addition?",
+                choices: ["+", "-", "*", "/"],
+                answer: 0
+            },
+            {
+                question: "Which event happens when a button is clicked?",
+                choices: ["onload", "onclick", "onchange", "onkeydown"],
+                answer: 1
+            },
+            {
+                question: "Which JavaScript structure stores multiple values?",
+                choices: ["Array", "Boolean", "String", "Number"],
+                answer: 0
+            },
+            {
+                question: "Which statement is used for decision making?",
+                choices: ["for", "while", "if", "function"],
+                answer: 2
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+
+        function showQuestion() {
+            let q = quiz[currentQuestion];
+            let output = "";
+
+            for (let i = 0; i < q.choices.length; i++) {
+                output += '<button onclick="checkAnswer(' + i + ')">' + q.choices[i] + '</button> ';
+            }
+
+            answered = false;
+            document.getElementById("question").innerHTML = q.question;
+            document.getElementById("choices").innerHTML = output;
+            document.getElementById("result").innerHTML = "";
+            document.getElementById("score").innerHTML = "Score: " + score;
+        }
+
+        function checkAnswer(picked) {
+            if (answered == true) {
+                return;
+            }
+
+            answered = true;
+            let q = quiz[currentQuestion];
+
+            if (picked == q.answer) {
+                score++;
+                document.getElementById("result").innerHTML = "Correct!";
+            } else {
+                document.getElementById("result").innerHTML = "Wrong! The correct answer is " + q.choices[q.answer] + ".";
+            }
+
+            let buttons = document.getElementById("choices").getElementsByTagName("button");
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = true;
+            }
+
+            document.getElementById("score").innerHTML = "Score: " + score;
+        }
+
+        function nextQuestion() {
+            if (answered == false) {
+                alert("Please select an answer first.");
+            } else {
+                currentQuestion++;
+
+                if (currentQuestion < quiz.length) {
+                    showQuestion();
+                } else {
+                    endQuiz();
+                }
+            }
+        }
+
+        function endQuiz() {
+            document.getElementById("question").innerHTML = "Quiz Finished!";
+            document.getElementById("choices").innerHTML = "";
+            document.getElementById("result").innerHTML = "Your final score is " + score + " out of " + quiz.length;
+            document.getElementById("score").innerHTML = "Score: " + score;
+            document.getElementById("nextButton").hidden = true;
+            document.getElementById("restartButton").hidden = false;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById("nextButton").hidden = false;
+            document.getElementById("restartButton").hidden = true;
+            showQuestion();
+        }
+
+        showQuestion();
+    </script>
+
+</body>
+</html>

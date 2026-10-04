@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>While Loop - Array Activity</title>
+</head>
+
+<body>
+    <h1>While Loop - Array Activity</h1>
+
+    <p>Enter an item:</p>
+    <input type="text" id="itemInput">
+    <button id="addButton" onclick="addItem()">Add Item</button>
+    <button id="stopButton" onclick="stopProgram()">Stop</button>
+
+    <h3>Items:</h3>
+    <p id="itemList"></p>
+    <p id="totalItems">Total Items: 0</p>
+    <p id="status">Program is running...</p>
+
+    <script>
+        const items = [];
+        let isRunning = true;
+
+        function displayItems() {
+            let text = "";
+            let i = 0;
+
+            while (i < items.length) {
+                text += (i + 1) + ". " + items[i] + "<br>";
+                i++;
+            }
+
+            document.getElementById("itemList").innerHTML = text;
+            document.getElementById("totalItems").innerHTML = "Total Items: " + items.length;
+        }
+
+        function addItem() {
+            if (isRunning == false) {
+                return;
+            }
+
+            let item = document.getElementById("itemInput").value;
+
+            if (item == "") {
+                alert("Please enter an item.");
+            } else {
+                items.push(item);
+                displayItems();
+                document.getElementById("itemInput").value = "";
+            }
+        }
+
+        function stopProgram() {
+            isRunning = false;
+            document.getElementById("itemInput").disabled = true;
+            document.getElementById("addButton").disabled = true;
+            document.getElementById("status").innerHTML = "Program stopped. You can no longer add items.";
+        }
+
+        displayItems();
+    </script>
+</body>
+
+</html>

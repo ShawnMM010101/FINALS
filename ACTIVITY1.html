@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set and Array Activity</title>
+</head>
+<body>
+    <h1>Set and Array Activity</h1>
+
+    <h2>Set</h2>
+    Enter an item:
+    <input type="text" id="setInput">
+    <button onclick="addToSet()">Add to Set</button>
+    <button onclick="removeFromSet()">Remove</button>
+    <button onclick="clearSet()">Clear Set</button>
+
+    <h3>Items in Set:</h3>
+    <p id="setDisplay"></p>
+    <p id="setSize">Set Size: 0</p>
+
+    <hr>
+
+    <h2>Array</h2>
+    Enter an item:
+    <input type="text" id="arrayInput">
+    <button onclick="addToArray()">Add to Array</button>
+    <button onclick="removeFromArray()">Remove</button>
+    <button onclick="clearArray()">Clear Array</button>
+
+    <h3>Items in Array:</h3>
+    <p id="arrayDisplay"></p>
+    <p id="arrayLength">Array Length: 0</p>
+
+    <script>
+        const mySet = new Set();
+        const myArray = [];
+
+        function displaySet() {
+            let text = "";
+            for (const x of mySet) {
+                text += x + "<br>";
+            }
+            document.getElementById("setDisplay").innerHTML = text;
+            document.getElementById("setSize").innerHTML = "Set Size: " + mySet.size;
+        }
+
+        function displayArray() {
+            let text = "";
+            for (let i = 0; i < myArray.length; i++) {
+                text += (i + 1) + ". " + myArray[i] + "<br>";
+            }
+            document.getElementById("arrayDisplay").innerHTML = text;
+            document.getElementById("arrayLength").innerHTML = "Array Length: " + myArray.length;
+        }
+
+        function addToSet() {
+            let item = document.getElementById("setInput").value;
+
+            if (item == "") {
+                alert("Please enter an item.");
+            } else {
+                mySet.add(item);
+                displaySet();
+                document.getElementById("setInput").value = "";
+            }
+        }
+
+        function removeFromSet() {
+            let item = document.getElementById("setInput").value;
+
+            if (item == "") {
+                alert("Please enter the item to remove.");
+            } else if (mySet.has(item)) {
+                mySet.delete(item);
+                displaySet();
+                document.getElementById("setInput").value = "";
+            } else {
+                alert(item + " is not in the Set.");
+            }
+        }
+
+        function clearSet() {
+            mySet.clear();
+            displaySet();
+        }
+
+        function addToArray() {
+            let item = document.getElementById("arrayInput").value;
+
+            if (item == "") {
+                alert("Please enter an item.");
+            } else {
+                myArray.push(item);
+                displayArray();
+                document.getElementById("arrayInput").value = "";
+            }
+        }
+
+        function removeFromArray() {
+            let item = document.getElementById("arrayInput").value;
+            let index = myArray.indexOf(item);
+
+            if (item == "") {
+                alert("Please enter the item to remove.");
+            } else if (index != -1) {
+                myArray.splice(index, 1);
+                displayArray();
+                document.getElementById("arrayInput").value = "";
+            } else {
+                alert(item + " is not in the Array.");
+            }
+        }
+
+        function clearArray() {
+            myArray.length = 0;
+            displayArray();
+        }
+
+    </script>
+</body>
+</html>

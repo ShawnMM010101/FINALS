@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Enrollment System</title>
+</head>
+<body>
+
+    <h1>Student Enrollment System</h1>
+
+    <p>Student Name:</p>
+    <input type="text" id="studentName">
+
+    <p>Select Subject:</p>
+    <select id="subject">
+        <option value="Database">Database</option>
+        <option value="Networking">Networking</option>
+        <option value="Web Development">Web Development</option>
+        <option value="JavaScript">JavaScript</option>
+    </select>
+
+    <p>
+        <button onclick="enrollStudent()">Enroll Student</button>
+        <button onclick="showStudents()">Show Students</button>
+        <button onclick="clearRecords()">Clear</button>
+    </p>
+
+    <h3>Enrollment Status:</h3>
+    <p id="status"></p>
+
+    <h3>Students Enrolled in Selected Subject:</h3>
+    <p id="result"></p>
+
+    <script>
+        const enrolledSet = new Set();
+        const students = [];
+
+        function enrollStudent() {
+            let name = document.getElementById("studentName").value;
+            let subject = document.getElementById("subject").value;
+
+            if (name == "") {
+                document.getElementById("status").innerHTML = "Please enter the student name.";
+            } else {
+                let key = name.toLowerCase() + "-" + subject;
+
+                if (enrolledSet.has(key)) {
+                    document.getElementById("status").innerHTML = name + " is already enrolled in " + subject + ".";
+                } else {
+                    enrolledSet.add(key);
+                    students.push({ name: name, subject: subject });
+                    document.getElementById("status").innerHTML = name + " successfully enrolled in " + subject + ".";
+                }
+
+                showStudents();
+            }
+        }
+
+        function showStudents() {
+            let subject = document.getElementById("subject").value;
+            let i = 0;
+            let count = 0;
+            let output = "";
+
+            while (i < students.length) {
+                if (students[i].subject == subject) {
+                    count++;
+                    output += count + ". " + students[i].name + "<br>";
+                }
+                i++;
+            }
+
+            if (count == 0) {
+                output = "No students enrolled in " + subject + ".";
+            } else {
+                output = "<b>" + subject + "</b><br><br>" + output;
+            }
+
+            document.getElementById("result").innerHTML = output;
+        }
+
+        function clearRecords() {
+            enrolledSet.clear();
+            students.length = 0;
+            document.getElementById("studentName").value = "";
+            document.getElementById("status").innerHTML = "";
+            document.getElementById("result").innerHTML = "";
+        }
+    </script>
+
+</body>
+</html>
